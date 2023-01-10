@@ -16,10 +16,7 @@ from functools import partial
 print("started program")
 import sys
 
-#libraries
-lib="C:/Users/anmod/OneDrive/Documents/coding projects/coding_projects/Python/school/yr 11/Reaction Time/"
-
-with open(lib+"config.txt", "r+") as f:
+with open("config.txt", "r+") as f:
     x = f.readlines()
     a = x[0][:len(x[0])-1]     #removes the "\n" in string
     theme = a
@@ -55,7 +52,7 @@ def multi_funcs(*funcs):
 
 #image edits
 def image_edit(x, dir="images/race lights/", t=True):
-    y = Image.open(lib+dir+x+".png")
+    y = Image.open(dir+x+".png")
     if t:
         wid=round(0.17*rh)
         hei=round(0.17*rh)
@@ -88,7 +85,7 @@ def time_convert(sec):
 
 #highscores
 def highscore_entry(name, age, total):
-    with open((lib+"highscores.txt"),"a+") as f:
+    with open(("highscores.txt"),"a+") as f:
         if name == "":
             name = "anonymous"
         if age == "":
@@ -115,7 +112,7 @@ def submit():
 def read_highscores():
     my_dicts = []
     try:
-        with open(lib+"highscores.txt","r+") as f:
+        with open("highscores.txt","r+") as f:
             pos = highscores.positions
             var = highscores.vars
             data = f.readlines()
@@ -150,7 +147,7 @@ def read_highscores():
             except IndexError:
                 pass
     except FileNotFoundError:
-        with open(lib+"highscores.txt", "x") as f:
+        with open("highscores.txt", "x") as f:
             pass
 
 #analysing data
@@ -158,7 +155,7 @@ def analysis(choice):
     analyse.details.delete(0,END)
     my_dicts = []
     ages = []
-    with open(lib+"highscores.txt","r+") as f:
+    with open("highscores.txt","r+") as f:
         data = f.readlines()
         for i in range(len(data)):
             x=data[i]
@@ -198,21 +195,21 @@ def analysis(choice):
 def reset():
     print("reset")
     # open both files
-    with open(lib+"highscores.txt",'r') as firstfile, open(lib+"old_highscores.txt",'a') as secondfile:
+    with open("highscores.txt",'r') as firstfile, open("old_highscores.txt",'a') as secondfile:
         # read content from first file
         for line in firstfile:
                 # append content to second file
                 secondfile.write(line)
-    with open(lib+"highscores.txt",'w') as f:
+    with open("highscores.txt",'w') as f:
         pass
 #colour change
 def theme_change(choice):
     global theme, appearance
     ctk.set_default_color_theme(choice)
-    with open(lib+"config.txt","r") as f:
+    with open("config.txt","r") as f:
         data = f.readlines()
     data[0]=choice+"\n"
-    with open(lib+"config.txt", "w") as f:
+    with open("config.txt", "w") as f:
         f.writelines(data)
     print(choice)
     os.startfile(sys.argv[0])
@@ -222,10 +219,10 @@ def theme_change(choice):
 def appearance_change(choice):
     global theme, appearance
     ctk.set_appearance_mode(choice)
-    with open(lib+"config.txt","r") as f:
+    with open("config.txt","r") as f:
         data = f.readlines()
     data[1]=choice+"\n"
-    with open(lib+"config.txt", "w") as f:
+    with open("config.txt", "w") as f:
         f.writelines(data)
     print(choice)
 
@@ -376,7 +373,7 @@ def change_frame(x, y):
         analysis(choice=0)
         analyse.options.set("Select Age")
     elif y == settings_frame:
-        with open(lib+"config.txt", "r+") as f:
+        with open("config.txt", "r+") as f:
             x = f.readlines()
             e = x[0][:len(x[0])-1]
             Settings.themes.set(e)   
