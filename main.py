@@ -1,3 +1,4 @@
+#below are all the modules i imported to make my code
 import time
 from tkinter import *
 import tkinter as tk
@@ -16,12 +17,13 @@ from functools import partial
 print("started program")
 import sys
 
+#the line below sets the theme and appearance of the program from the config file
 with open("config.txt", "r+") as f:
-    x = f.readlines()
-    a = x[0][:len(x[0])-1]     #removes the "\n" in string
-    theme = a
-    a = x[1][:len(x[1])-1]
-    appearance = a
+    file_lines = f.readlines()
+    no_n = file_lines[0][:len(file_lines[0])-1]     #removes the "\n" in string
+    theme = no_n
+    no_n = file_lines[1][:len(file_lines[1])-1]
+    appearance = no_n
     print(theme, appearance+":")
 
 
@@ -35,7 +37,7 @@ ctk.set_default_color_theme(theme)
 myFont_small = font.Font(family='8514oem', size=20)
 myFont_big = font.Font(family='8514oem', size=50)
 
-
+#these variables store the value for the dimensions of the host monitor's screen
 rw = app.winfo_screenwidth()
 rh = app.winfo_screenheight()
 
@@ -43,7 +45,7 @@ accel = False
 
 average_time = []
 
-#multiple functions
+#multiple functions - this function lets the program run multiple functions by calling one function only
 def multi_funcs(*funcs):
     def combined_func(*args, **kwargs):
         for f in funcs:
@@ -52,19 +54,19 @@ def multi_funcs(*funcs):
 
 #image edits
 def image_edit(x, dir="images/race lights/", t=True):
-    y = Image.open(dir+x+".png")
+    img = Image.open(dir+x+".png")
     if t:
         wid=round(0.17*rh)
         hei=round(0.17*rh)
-        y = y.resize((wid,hei), Image.ANTIALIAS)    #resizing + antialiasing
-        w, h = y.size    #cropping
+        img = img.resize((wid,hei), Image.ANTIALIAS)    #resizing + antialiasing
+        w, h = img.size    #cropping
         left = round(0.376*hei)                                           #creates a for loop which does this process to all images
         right = round(0.624*hei)
         upper = round(0.38*hei)
         lower = round(0.62*hei)
-        y = y.crop([left, upper, right, lower])
-    y = ImageTk.PhotoImage(y)
-    return y
+        img = img.crop([left, upper, right, lower])
+    img = ImageTk.PhotoImage(img)
+    return img
 
 total_time = ""
 #convert time
@@ -83,7 +85,7 @@ def time_convert(sec):
     change_frame(test_frame, data_frame)
     return total_time
 
-#highscores
+#highscores - this function saves the highscore to a text file
 def highscore_entry(name, age, total):
     with open(("highscores.txt"),"a+") as f:
         if name == "":
@@ -94,13 +96,13 @@ def highscore_entry(name, age, total):
         entry= None
         entry ={"name":name, "age":int(age), "time":float(total)}
         print(name, age, total)
-        f.write(str(entry)+"\n")
+        f.write(str(entry)+"\n")   #the data is written as a dictionary in string formation.
 
 #submit data
 def submit():
     name=data.name_var.get()
     age=data.age_var.get()
-    ttl_time = data.taken.get()
+    ttl_time = data.taken.get()      #this function formats the name and age submission.
     print("Name: " + name)
     print("Age: " + age)
     highscore_entry(name, age, ttl_time)
@@ -113,16 +115,16 @@ def read_highscores():
     my_dicts = []
     try:
         with open("highscores.txt","r+") as f:
-            pos = highscores.positions
-            var = highscores.vars
+            pos = highscores.positions             #pos is a variable which is for each position of the labels
+            var = highscores.vars                  #var is the variable which stores the time value for the labels
             data = f.readlines()
             for i in range(len(data)):
-                x=data[i]
-                x = x.strip()
-                x = eval(x)
-                my_dicts.append(x)
+                data_line=data[i]
+                data_line = data_line.strip()
+                data_line = eval(data_line)
+                my_dicts.append(data_line)
 
-            sorted_dicts = sorted(my_dicts, key=lambda x: x['time'])
+            sorted_dicts = sorted(my_dicts, key=lambda data_line: data_line['time'])
             #Print the sorted dictionaries
             l = 0
             try:
@@ -150,7 +152,7 @@ def read_highscores():
         with open("highscores.txt", "x") as f:
             pass
 
-#analysing data
+#analysing data - this function sorts the highscores based on the time key in each dictionary
 def analysis(choice):
     analyse.details.delete(0,END)
     my_dicts = []
@@ -237,11 +239,11 @@ def light_shuffle(lst, col, count=0):
         light_green = image_edit("green")
         light_grey = image_edit("grey")
         light_blank = image_edit("default")
-        light_red = image_edit("red")
+        light_red = image_edit("red") 
         if count != len(lst) and shuffle==True:
-            x = lst[len(lst)-count-1]
-            x.config(image = col)
-            x.image = col
+            light = lst[len(lst)-count-1]
+            light.config(image = col)
+            light.image = col
             app.after(1000, partial(light_shuffle, lst, light_grey, count+1))
             if count == len(lst)-1:
                 shuffle=False
@@ -251,9 +253,9 @@ def light_shuffle(lst, col, count=0):
                 shuffle=True
                 light_shuffle(play.red_lights, light_grey, 0)
             else:
-                x = lst[len(lst)-count-1]
-                x.config(image = col)
-                x.image = col
+                light = lst[len(lst)-count-1]
+                light.config(image = col)
+                light.image = col
                 app.after(1000, partial(light_shuffle, lst, light_red, count-1))
     else:
         return
@@ -263,13 +265,13 @@ def greyed():
     global start_time, accel
     light_grey = image_edit("grey")
     for i in range(len(test.red_lights)):
-                    x=test.red_lights[i]
-                    x.config(image = light_grey)
-                    x.image = light_grey
+                    light=test.red_lights[i]
+                    light.config(image = light_grey)
+                    light.image = light_grey
     for i in range(len(test.mid_red_lights)):
-        x=test.mid_red_lights[i]
-        x.config(image = light_grey)
-        x.image = light_grey
+        light=test.mid_red_lights[i]
+        light.config(image = light_grey)
+        light.image = light_grey
     print("lights extinguished")
     accel = True
     print("accel=True")
@@ -278,7 +280,7 @@ def greyed():
     
 race_end = False
 pre_race = 1
-#race sequence
+#race sequence - this function initiates and controls the sequence of the lights turning green/grey/red
 def race_sequence(lst1, lst2, count=0):
     global race_end, pre_race, accel
     accel = False
@@ -291,44 +293,44 @@ def race_sequence(lst1, lst2, count=0):
         if pre_race == 1:
             print("pre_race = 1")
             for i in range(len(test.red_lights)):
-                x=test.red_lights[i]
-                x.config(image = light_red)
-                x.image = light_red
+                light=test.red_lights[i]
+                light.config(image = light_red)
+                light.image = light_red
             for i in range(len(test.mid_red_lights)):
-                x=test.mid_red_lights[i]
-                x.config(image = light_red)
-                x.image = light_red
+                light=test.mid_red_lights[i]
+                light.config(image = light_red)
+                light.image = light_red
             for i in range(len(test.green_lights)):
-                x=test.green_lights[i]
-                x.config(image = light_green)
-                x.image = light_green
+                light=test.green_lights[i]
+                light.config(image = light_green)
+                light.image = light_green
             pre_race = 2
             app.after(500, partial(race_sequence, lst1, lst2))
 
         elif pre_race == 2:
             print("pre_race = 3")
             for i in range(len(test.red_lights)):
-                    x=test.red_lights[i]
-                    x.config(image = light_grey)
-                    x.image = light_grey
+                    light=test.red_lights[i]
+                    light.config(image = light_grey)
+                    light.image = light_grey
             for i in range(len(test.mid_red_lights)):
-                x=test.mid_red_lights[i]
-                x.config(image = light_grey)
-                x.image = light_grey
+                light=test.mid_red_lights[i]
+                light.config(image = light_grey)
+                light.image = light_grey
             for i in range(len(test.green_lights)):
-                x=test.green_lights[i]
-                x.config(image = light_grey)
-                x.image = light_grey
+                light=test.green_lights[i]
+                light.config(image = light_grey)
+                light.image = light_grey
             pre_race = 3
             app.after(0000, partial(race_sequence, lst1, lst2))
 
         elif pre_race==3:
             if count != len(lst1):
-                x = lst1[len(lst1)-count-1]
+                light = lst1[len(lst1)-count-1]
                 y = lst2[len(lst2)-count-1]
-                x.config(image = light_red)
+                light.config(image = light_red)
                 y.config(image = light_red)
-                x.image = light_red
+                light.image = light_red
                 y.image = light_red
                 if count != len(lst1):
                     app.after(1000, partial(race_sequence, lst1, lst2, count+1))
@@ -346,22 +348,22 @@ def race_sequence(lst1, lst2, count=0):
 
 
 #change frame
-def change_frame(x, y):
+def change_frame(x, y):    #x is the previous frame, y is the frame which is going to be called
     global stop, shuffle, race_end, pre_race
     x.forget()
     y.pack(fill='both', expand=1)
     stop = True
     for i in range(len(play.red_lights)):
-            x=play.red_lights[i]
-            x.config(image = light_red)
-            x.image = light_red
+            light=play.red_lights[i]
+            light.config(image = light_red)
+            light.image = light_red
     if y == play_frame:
         stop = False
         shuffle = True
         for i in range(len(play.red_lights)):
-            x=play.red_lights[i]
-            x.config(image = light_red)
-            x.image = light_red
+            light=play.red_lights[i]
+            light.config(image = light_red)
+            light.image = light_red
         light_shuffle(play.red_lights, light_grey, 0)
 
     elif y == test_frame:
@@ -374,10 +376,10 @@ def change_frame(x, y):
         analyse.options.set("Select Age")
     elif y == settings_frame:
         with open("config.txt", "r+") as f:
-            x = f.readlines()
-            e = x[0][:len(x[0])-1]
+            data = f.readlines()
+            e = data[0][:len(data[0])-1]
             Settings.themes.set(e)   
-            r = x[1][:len(x[1])-1]
+            r = data[1][:len(data[1])-1]
             Settings.appearances.set(r)
             print(e, r)
         
