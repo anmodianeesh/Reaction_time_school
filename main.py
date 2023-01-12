@@ -694,7 +694,7 @@ class about:
     how = ctk.CTkLabel(about_frame, text = "How To Play", text_font=font.Font(family='8514oem', size=30))
     how.place(anchor=tk.CENTER, relx= 0.5, rely=0.3)
     how_to_play = ctk.CTkLabel(about_frame, text = "After running the game, click on the button which says \"play\".\nClick the button which says \"start test\".\nWhen all the race lights on screen are grey, click the button which says \"React!\".\n Follow the rest of the steps on screen to record your reaction time.\n\n\nDon't forget that the test repeats itself 4 times to\nrecord your AVERAGE reaction time as your highscore.", text_font=font.Font(family='8514oem', size=20))
-    how_to_play.place(anchor=tk.CENTER, relx= 0.5, rely=0.45)
+    how_to_play.place(anchor=tk.CENTER, relx= 0.5, rely=0.5)
 
 #menu_frame - done
 class menu:

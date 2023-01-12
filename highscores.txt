@@ -23,3 +23,6 @@
 {'name': 'Aneesh', 'age': 16, 'time': 0.292}
 {'name': 'Aneesh', 'age': 16, 'time': 0.323}
 {'name': 'Aneesh', 'age': 16, 'time': 0.343}
+{'name': 'kai', 'age': 16, 'time': 0.288}
+{'name': 'kai', 'age': 11, 'time': 0.26}
+{'name': 'kai', 'age': 69, 'time': 0.291}
